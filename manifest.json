@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "DevTab - Developer's New Tab",
+  "version": "1.0",
+  "description": "A modern, developer-focused new tab page with useful widgets and tools",
+  "permissions": ["storage", "tabs"],
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "icons": {
+    "16": "assets/icon16.png",
+    "48": "assets/icon48.png",
+    "128": "assets/icon128.png"
+  }
+}
