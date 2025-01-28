@@ -77,7 +77,7 @@ async function updateWeather() {
 
     const { latitude, longitude } = position.coords;
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=YOUR_API_KEY`
+      `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=757591bfc4ab3cd2972613b49c0e615d`
     );
     const data = await response.json();
 

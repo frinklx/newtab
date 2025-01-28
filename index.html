@@ -18,9 +18,9 @@
           <i class="fas fa-cloud"></i>
           <span id="weather">Loading...</span>
         </div>
-        <div class="settings-button">
+        <button class="settings-button" aria-label="Settings">
           <i class="fas fa-cog"></i>
-        </div>
+        </button>
       </div>
 
       <!-- Search Bar -->
@@ -35,10 +35,10 @@
             />
           </div>
           <div class="search-shortcuts">
-            <span class="shortcut-tag" data-shortcut="/gh">GitHub</span>
-            <span class="shortcut-tag" data-shortcut="/so">Stack Overflow</span>
-            <span class="shortcut-tag" data-shortcut="/mdn">MDN</span>
-            <span class="shortcut-tag" data-shortcut="/npm">npm</span>
+            <div class="shortcut-tag" data-shortcut="mdn">/mdn</div>
+            <div class="shortcut-tag" data-shortcut="gh">/gh</div>
+            <div class="shortcut-tag" data-shortcut="so">/so</div>
+            <div class="shortcut-tag" data-shortcut="npm">/npm</div>
           </div>
         </div>
       </div>
@@ -60,9 +60,11 @@
           <div class="widget" id="githubWidget">
             <div class="widget-header">
               <h3><i class="fab fa-github"></i> GitHub Activity</h3>
-              <button class="refresh-btn" data-action="refresh-github">
-                <i class="fas fa-sync-alt"></i>
-              </button>
+              <div class="widget-actions">
+                <button class="action-btn" data-action="refresh-github">
+                  <i class="fas fa-sync-alt"></i>
+                </button>
+              </div>
             </div>
             <div class="widget-content">
               <div class="github-stats">
