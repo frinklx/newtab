@@ -12,6 +12,17 @@
   </head>
   <body>
     <div class="container">
+      <!-- Top Bar -->
+      <div class="top-bar">
+        <div class="weather-widget">
+          <i class="fas fa-cloud"></i>
+          <span id="weather">Loading...</span>
+        </div>
+        <div class="settings-button">
+          <i class="fas fa-cog"></i>
+        </div>
+      </div>
+
       <!-- Search Bar -->
       <div class="search-container">
         <div class="search-box">
@@ -21,6 +32,12 @@
             id="searchInput"
             placeholder="Search or type a command (/ for shortcuts)"
           />
+          <div class="search-shortcuts">
+            <span class="shortcut-tag">/gh</span>
+            <span class="shortcut-tag">/so</span>
+            <span class="shortcut-tag">/mdn</span>
+            <span class="shortcut-tag">/npm</span>
+          </div>
         </div>
       </div>
 
@@ -31,28 +48,67 @@
           <div class="widget-content">
             <div id="time">00:00</div>
             <div id="date">Monday, January 1</div>
+            <div id="timezone"></div>
           </div>
         </div>
 
         <!-- GitHub Activity Widget -->
         <div class="widget" id="githubWidget">
-          <h3><i class="fab fa-github"></i> GitHub Activity</h3>
+          <h3>
+            <i class="fab fa-github"></i> GitHub Activity
+            <button class="refresh-btn" onclick="refreshGitHub()">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+          </h3>
           <div class="widget-content" id="githubContent">
-            <div class="loading">Loading...</div>
+            <div class="github-stats">
+              <div class="stat">
+                <span class="stat-label">Contributions</span>
+                <span class="stat-value" id="contributions">-</span>
+              </div>
+              <div class="stat">
+                <span class="stat-label">Repositories</span>
+                <span class="stat-value" id="repositories">-</span>
+              </div>
+            </div>
+            <div class="recent-activity" id="recentActivity">
+              <div class="loading">Loading...</div>
+            </div>
           </div>
         </div>
 
         <!-- Code Snippet Widget -->
         <div class="widget" id="snippetWidget">
-          <h3><i class="fas fa-code"></i> Code Snippet of the Day</h3>
+          <h3>
+            <i class="fas fa-code"></i> Code Snippet
+            <button class="refresh-btn" onclick="refreshSnippet()">
+              <i class="fas fa-sync-alt"></i>
+            </button>
+          </h3>
           <div class="widget-content">
+            <div class="language-tag" id="snippetLanguage">javascript</div>
             <pre><code id="codeSnippet">// Loading...</code></pre>
+            <div class="snippet-controls">
+              <button onclick="copySnippet()">
+                <i class="fas fa-copy"></i> Copy
+              </button>
+              <button onclick="shareSnippet()">
+                <i class="fas fa-share"></i> Share
+              </button>
+            </div>
           </div>
         </div>
 
         <!-- Dev News Widget -->
         <div class="widget" id="newsWidget">
-          <h3><i class="fas fa-newspaper"></i> Dev News</h3>
+          <h3>
+            <i class="fas fa-newspaper"></i> Dev News
+            <div class="news-sources">
+              <span class="active" onclick="changeNewsSource('all')">All</span>
+              <span onclick="changeNewsSource('github')">GitHub</span>
+              <span onclick="changeNewsSource('dev')">Dev.to</span>
+            </div>
+          </h3>
           <div class="widget-content" id="newsContent">
             <div class="loading">Loading...</div>
           </div>
@@ -79,30 +135,128 @@
                 <i class="fab fa-npm"></i>
                 <span>npm</span>
               </a>
+              <a href="https://chat.openai.com" class="quick-link">
+                <i class="fas fa-robot"></i>
+                <span>ChatGPT</span>
+              </a>
+              <a href="https://codepen.io" class="quick-link">
+                <i class="fab fa-codepen"></i>
+                <span>CodePen</span>
+              </a>
             </div>
+            <button class="add-link-btn">
+              <i class="fas fa-plus"></i> Add Custom Link
+            </button>
           </div>
         </div>
 
         <!-- System Resources -->
         <div class="widget" id="systemWidget">
-          <h3><i class="fas fa-microchip"></i> System Resources</h3>
+          <h3>
+            <i class="fas fa-microchip"></i> System Resources
+            <span class="refresh-rate">2s</span>
+          </h3>
           <div class="widget-content">
             <div class="resource-item">
               <span>Memory Usage</span>
               <div class="progress-bar">
                 <div class="progress" id="memoryUsage"></div>
+                <span class="progress-text" id="memoryText">0%</span>
               </div>
             </div>
             <div class="resource-item">
               <span>CPU Usage</span>
               <div class="progress-bar">
                 <div class="progress" id="cpuUsage"></div>
+                <span class="progress-text" id="cpuText">0%</span>
               </div>
+            </div>
+            <div class="resource-item">
+              <span>Network Speed</span>
+              <div id="networkSpeed">-- Mbps ↓ / -- Mbps ↑</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Todo List Widget -->
+        <div class="widget" id="todoWidget">
+          <h3>
+            <i class="fas fa-tasks"></i> Dev Tasks
+            <button class="add-task-btn">
+              <i class="fas fa-plus"></i>
+            </button>
+          </h3>
+          <div class="widget-content">
+            <div class="todo-list" id="todoList"></div>
+            <div class="todo-input-container">
+              <input
+                type="text"
+                id="todoInput"
+                placeholder="Add a new task..."
+              />
+              <button onclick="addTodo()">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Terminal Widget -->
+        <div class="widget" id="terminalWidget">
+          <h3>
+            <i class="fas fa-terminal"></i> Quick Commands
+            <button class="clear-terminal-btn">
+              <i class="fas fa-eraser"></i>
+            </button>
+          </h3>
+          <div class="widget-content">
+            <div class="terminal-output" id="terminalOutput"></div>
+            <div class="terminal-input">
+              <span class="prompt">$</span>
+              <input
+                type="text"
+                id="terminalInput"
+                placeholder="Enter command..."
+              />
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+      <div class="modal-content">
+        <h2>Settings</h2>
+        <div class="settings-section">
+          <h3>Appearance</h3>
+          <div class="theme-selector">
+            <button class="theme-btn active" data-theme="dark">Dark</button>
+            <button class="theme-btn" data-theme="light">Light</button>
+            <button class="theme-btn" data-theme="system">System</button>
+          </div>
+        </div>
+        <div class="settings-section">
+          <h3>Widgets</h3>
+          <div class="widget-toggles">
+            <!-- Widget toggle switches will be dynamically added here -->
+          </div>
+        </div>
+        <div class="settings-section">
+          <h3>GitHub Integration</h3>
+          <input
+            type="text"
+            id="githubUsername"
+            placeholder="GitHub Username"
+          />
+          <input
+            type="password"
+            id="githubToken"
+            placeholder="Personal Access Token"
+          />
+        </div>
+        <button class="save-settings">Save Changes</button>
+      </div>
+    </div>
+
     <script src="js/main.js"></script>
   </body>
 </html>
