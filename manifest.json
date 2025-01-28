@@ -3,7 +3,22 @@
   "name": "DevTab - Developer's New Tab",
   "version": "1.0",
   "description": "A modern, developer-focused new tab page with useful widgets and tools",
-  "permissions": ["storage", "tabs"],
+  "permissions": [
+    "storage",
+    "tabs",
+    "geolocation",
+    "https://api.openweathermap.org/*",
+    "https://api.github.com/*",
+    "https://dev.to/api/*"
+  ],
+  "host_permissions": [
+    "https://api.openweathermap.org/*",
+    "https://api.github.com/*",
+    "https://dev.to/api/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
   "chrome_url_overrides": {
     "newtab": "index.html"
   },

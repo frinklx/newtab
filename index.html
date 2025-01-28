@@ -11,7 +11,7 @@
     />
   </head>
   <body>
-    <div class="container">
+    <div class="dashboard-container">
       <!-- Top Bar -->
       <div class="top-bar">
         <div class="weather-widget">
@@ -26,196 +26,212 @@
       <!-- Search Bar -->
       <div class="search-container">
         <div class="search-box">
-          <i class="fas fa-search"></i>
-          <input
-            type="text"
-            id="searchInput"
-            placeholder="Search or type a command (/ for shortcuts)"
-          />
+          <div class="input-wrapper">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search or type a command (/ for shortcuts)"
+            />
+          </div>
           <div class="search-shortcuts">
-            <span class="shortcut-tag">/gh</span>
-            <span class="shortcut-tag">/so</span>
-            <span class="shortcut-tag">/mdn</span>
-            <span class="shortcut-tag">/npm</span>
+            <span class="shortcut-tag" data-shortcut="/gh">GitHub</span>
+            <span class="shortcut-tag" data-shortcut="/so">Stack Overflow</span>
+            <span class="shortcut-tag" data-shortcut="/mdn">MDN</span>
+            <span class="shortcut-tag" data-shortcut="/npm">npm</span>
           </div>
         </div>
       </div>
 
-      <!-- Main Grid Layout -->
-      <div class="grid-container">
-        <!-- Time and Date Widget -->
-        <div class="widget" id="timeWidget">
-          <div class="widget-content">
-            <div id="time">00:00</div>
-            <div id="date">Monday, January 1</div>
-            <div id="timezone"></div>
-          </div>
-        </div>
-
-        <!-- GitHub Activity Widget -->
-        <div class="widget" id="githubWidget">
-          <h3>
-            <i class="fab fa-github"></i> GitHub Activity
-            <button class="refresh-btn" onclick="refreshGitHub()">
-              <i class="fas fa-sync-alt"></i>
-            </button>
-          </h3>
-          <div class="widget-content" id="githubContent">
-            <div class="github-stats">
-              <div class="stat">
-                <span class="stat-label">Contributions</span>
-                <span class="stat-value" id="contributions">-</span>
-              </div>
-              <div class="stat">
-                <span class="stat-label">Repositories</span>
-                <span class="stat-value" id="repositories">-</span>
-              </div>
-            </div>
-            <div class="recent-activity" id="recentActivity">
-              <div class="loading">Loading...</div>
+      <!-- Dashboard Grid -->
+      <div class="dashboard-grid">
+        <!-- Left Column -->
+        <div class="dashboard-column">
+          <!-- Time and Date Widget -->
+          <div class="widget" id="timeWidget">
+            <div class="widget-content">
+              <div id="time">00:00</div>
+              <div id="date">Monday, January 1</div>
+              <div id="timezone"></div>
             </div>
           </div>
-        </div>
 
-        <!-- Code Snippet Widget -->
-        <div class="widget" id="snippetWidget">
-          <h3>
-            <i class="fas fa-code"></i> Code Snippet
-            <button class="refresh-btn" onclick="refreshSnippet()">
-              <i class="fas fa-sync-alt"></i>
-            </button>
-          </h3>
-          <div class="widget-content">
-            <div class="language-tag" id="snippetLanguage">javascript</div>
-            <pre><code id="codeSnippet">// Loading...</code></pre>
-            <div class="snippet-controls">
-              <button onclick="copySnippet()">
-                <i class="fas fa-copy"></i> Copy
-              </button>
-              <button onclick="shareSnippet()">
-                <i class="fas fa-share"></i> Share
+          <!-- GitHub Activity Widget -->
+          <div class="widget" id="githubWidget">
+            <div class="widget-header">
+              <h3><i class="fab fa-github"></i> GitHub Activity</h3>
+              <button class="refresh-btn" data-action="refresh-github">
+                <i class="fas fa-sync-alt"></i>
               </button>
             </div>
-          </div>
-        </div>
-
-        <!-- Dev News Widget -->
-        <div class="widget" id="newsWidget">
-          <h3>
-            <i class="fas fa-newspaper"></i> Dev News
-            <div class="news-sources">
-              <span class="active" onclick="changeNewsSource('all')">All</span>
-              <span onclick="changeNewsSource('github')">GitHub</span>
-              <span onclick="changeNewsSource('dev')">Dev.to</span>
-            </div>
-          </h3>
-          <div class="widget-content" id="newsContent">
-            <div class="loading">Loading...</div>
-          </div>
-        </div>
-
-        <!-- Quick Links -->
-        <div class="widget" id="quickLinks">
-          <h3><i class="fas fa-link"></i> Quick Links</h3>
-          <div class="widget-content">
-            <div class="quick-links-grid">
-              <a href="https://github.com" class="quick-link">
-                <i class="fab fa-github"></i>
-                <span>GitHub</span>
-              </a>
-              <a href="https://stackoverflow.com" class="quick-link">
-                <i class="fab fa-stack-overflow"></i>
-                <span>Stack Overflow</span>
-              </a>
-              <a href="https://developer.mozilla.org" class="quick-link">
-                <i class="fas fa-book"></i>
-                <span>MDN Docs</span>
-              </a>
-              <a href="https://www.npmjs.com" class="quick-link">
-                <i class="fab fa-npm"></i>
-                <span>npm</span>
-              </a>
-              <a href="https://chat.openai.com" class="quick-link">
-                <i class="fas fa-robot"></i>
-                <span>ChatGPT</span>
-              </a>
-              <a href="https://codepen.io" class="quick-link">
-                <i class="fab fa-codepen"></i>
-                <span>CodePen</span>
-              </a>
-            </div>
-            <button class="add-link-btn">
-              <i class="fas fa-plus"></i> Add Custom Link
-            </button>
-          </div>
-        </div>
-
-        <!-- System Resources -->
-        <div class="widget" id="systemWidget">
-          <h3>
-            <i class="fas fa-microchip"></i> System Resources
-            <span class="refresh-rate">2s</span>
-          </h3>
-          <div class="widget-content">
-            <div class="resource-item">
-              <span>Memory Usage</span>
-              <div class="progress-bar">
-                <div class="progress" id="memoryUsage"></div>
-                <span class="progress-text" id="memoryText">0%</span>
+            <div class="widget-content">
+              <div class="github-stats">
+                <div class="stat">
+                  <span class="stat-label">Contributions</span>
+                  <span class="stat-value" id="contributions">-</span>
+                </div>
+                <div class="stat">
+                  <span class="stat-label">Repositories</span>
+                  <span class="stat-value" id="repositories">-</span>
+                </div>
+              </div>
+              <div class="recent-activity" id="recentActivity">
+                <div class="loading">Loading...</div>
               </div>
             </div>
-            <div class="resource-item">
-              <span>CPU Usage</span>
-              <div class="progress-bar">
-                <div class="progress" id="cpuUsage"></div>
-                <span class="progress-text" id="cpuText">0%</span>
+          </div>
+
+          <!-- System Resources -->
+          <div class="widget" id="systemWidget">
+            <div class="widget-header">
+              <h3><i class="fas fa-microchip"></i> System Resources</h3>
+              <span class="refresh-rate">2s</span>
+            </div>
+            <div class="widget-content">
+              <div class="resource-item">
+                <span>Memory Usage</span>
+                <div class="progress-bar">
+                  <div class="progress" id="memoryUsage"></div>
+                  <span class="progress-text" id="memoryText">0%</span>
+                </div>
+              </div>
+              <div class="resource-item">
+                <span>CPU Usage</span>
+                <div class="progress-bar">
+                  <div class="progress" id="cpuUsage"></div>
+                  <span class="progress-text" id="cpuText">0%</span>
+                </div>
+              </div>
+              <div class="resource-item">
+                <span>Network Speed</span>
+                <div id="networkSpeed">-- Mbps ↓ / -- Mbps ↑</div>
               </div>
             </div>
-            <div class="resource-item">
-              <span>Network Speed</span>
-              <div id="networkSpeed">-- Mbps ↓ / -- Mbps ↑</div>
+          </div>
+        </div>
+
+        <!-- Middle Column -->
+        <div class="dashboard-column">
+          <!-- Code Snippet Widget -->
+          <div class="widget" id="snippetWidget">
+            <div class="widget-header">
+              <h3><i class="fas fa-code"></i> Code Snippet</h3>
+              <div class="widget-actions">
+                <button class="action-btn" data-action="refresh-snippet">
+                  <i class="fas fa-sync-alt"></i>
+                </button>
+                <button class="action-btn" data-action="copy-snippet">
+                  <i class="fas fa-copy"></i>
+                </button>
+                <button class="action-btn" data-action="share-snippet">
+                  <i class="fas fa-share"></i>
+                </button>
+              </div>
+            </div>
+            <div class="widget-content">
+              <div class="language-tag" id="snippetLanguage">javascript</div>
+              <pre><code id="codeSnippet">// Loading...</code></pre>
+            </div>
+          </div>
+
+          <!-- Dev News Widget -->
+          <div class="widget" id="newsWidget">
+            <div class="widget-header">
+              <h3><i class="fas fa-newspaper"></i> Dev News</h3>
+              <div class="news-sources">
+                <button class="source-btn active" data-source="all">All</button>
+                <button class="source-btn" data-source="github">GitHub</button>
+                <button class="source-btn" data-source="dev">Dev.to</button>
+              </div>
+            </div>
+            <div class="widget-content" id="newsContent">
+              <div class="news-grid"></div>
+              <div class="news-loading">
+                <div class="loading">Loading latest news...</div>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Todo List Widget -->
-        <div class="widget" id="todoWidget">
-          <h3>
-            <i class="fas fa-tasks"></i> Dev Tasks
-            <button class="add-task-btn">
-              <i class="fas fa-plus"></i>
-            </button>
-          </h3>
-          <div class="widget-content">
-            <div class="todo-list" id="todoList"></div>
-            <div class="todo-input-container">
-              <input
-                type="text"
-                id="todoInput"
-                placeholder="Add a new task..."
-              />
-              <button onclick="addTodo()">Add</button>
+        <!-- Right Column -->
+        <div class="dashboard-column">
+          <!-- Quick Links -->
+          <div class="widget" id="quickLinks">
+            <div class="widget-header">
+              <h3><i class="fas fa-link"></i> Quick Links</h3>
+            </div>
+            <div class="widget-content">
+              <div class="quick-links-grid">
+                <a href="https://github.com" class="quick-link">
+                  <i class="fab fa-github"></i>
+                  <span>GitHub</span>
+                </a>
+                <a href="https://stackoverflow.com" class="quick-link">
+                  <i class="fab fa-stack-overflow"></i>
+                  <span>Stack Overflow</span>
+                </a>
+                <a href="https://developer.mozilla.org" class="quick-link">
+                  <i class="fas fa-book"></i>
+                  <span>MDN Docs</span>
+                </a>
+                <a href="https://www.npmjs.com" class="quick-link">
+                  <i class="fab fa-npm"></i>
+                  <span>npm</span>
+                </a>
+                <a href="https://chat.openai.com" class="quick-link">
+                  <i class="fas fa-robot"></i>
+                  <span>ChatGPT</span>
+                </a>
+                <a href="https://codepen.io" class="quick-link">
+                  <i class="fab fa-codepen"></i>
+                  <span>CodePen</span>
+                </a>
+              </div>
+              <button class="add-link-btn" data-action="add-link">
+                <i class="fas fa-plus"></i> Add Custom Link
+              </button>
             </div>
           </div>
-        </div>
 
-        <!-- Terminal Widget -->
-        <div class="widget" id="terminalWidget">
-          <h3>
-            <i class="fas fa-terminal"></i> Quick Commands
-            <button class="clear-terminal-btn">
-              <i class="fas fa-eraser"></i>
-            </button>
-          </h3>
-          <div class="widget-content">
-            <div class="terminal-output" id="terminalOutput"></div>
-            <div class="terminal-input">
-              <span class="prompt">$</span>
-              <input
-                type="text"
-                id="terminalInput"
-                placeholder="Enter command..."
-              />
+          <!-- Todo List Widget -->
+          <div class="widget" id="todoWidget">
+            <div class="widget-header">
+              <h3><i class="fas fa-tasks"></i> Dev Tasks</h3>
+              <button class="action-btn" data-action="clear-todos">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+            <div class="widget-content">
+              <div class="todo-list" id="todoList"></div>
+              <div class="todo-input-container">
+                <input
+                  type="text"
+                  id="todoInput"
+                  placeholder="Add a new task..."
+                />
+                <button class="add-todo-btn" data-action="add-todo">Add</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Terminal Widget -->
+          <div class="widget" id="terminalWidget">
+            <div class="widget-header">
+              <h3><i class="fas fa-terminal"></i> Quick Commands</h3>
+              <button class="action-btn" data-action="clear-terminal">
+                <i class="fas fa-eraser"></i>
+              </button>
+            </div>
+            <div class="widget-content">
+              <div class="terminal-output" id="terminalOutput"></div>
+              <div class="terminal-input">
+                <span class="prompt">$</span>
+                <input
+                  type="text"
+                  id="terminalInput"
+                  placeholder="Enter command..."
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -225,7 +241,12 @@
     <!-- Settings Modal -->
     <div class="modal" id="settingsModal">
       <div class="modal-content">
-        <h2>Settings</h2>
+        <div class="modal-header">
+          <h2>Settings</h2>
+          <button class="close-modal" data-action="close-settings">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
         <div class="settings-section">
           <h3>Appearance</h3>
           <div class="theme-selector">
@@ -235,25 +256,43 @@
           </div>
         </div>
         <div class="settings-section">
+          <h3>API Keys</h3>
+          <div class="api-keys">
+            <div class="input-group">
+              <label for="weatherApiKey">OpenWeather API Key</label>
+              <input
+                type="password"
+                id="weatherApiKey"
+                placeholder="Enter API key"
+              />
+            </div>
+            <div class="input-group">
+              <label for="githubUsername">GitHub Username</label>
+              <input
+                type="text"
+                id="githubUsername"
+                placeholder="Enter username"
+              />
+            </div>
+            <div class="input-group">
+              <label for="githubToken">GitHub Token</label>
+              <input
+                type="password"
+                id="githubToken"
+                placeholder="Enter token"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="settings-section">
           <h3>Widgets</h3>
           <div class="widget-toggles">
             <!-- Widget toggle switches will be dynamically added here -->
           </div>
         </div>
-        <div class="settings-section">
-          <h3>GitHub Integration</h3>
-          <input
-            type="text"
-            id="githubUsername"
-            placeholder="GitHub Username"
-          />
-          <input
-            type="password"
-            id="githubToken"
-            placeholder="Personal Access Token"
-          />
-        </div>
-        <button class="save-settings">Save Changes</button>
+        <button class="save-settings" data-action="save-settings">
+          Save Changes
+        </button>
       </div>
     </div>
 
