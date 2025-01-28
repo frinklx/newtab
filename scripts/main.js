@@ -1,8 +1,7 @@
 // Configuration
 const config = {
   weatherApiKey: "757591bfc4ab3cd2972613b49c0e615d", // Replace with your OpenWeatherMap API key
-  githubToken:
-    "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", // Replace with your GitHub token
+  githubToken: "ghp_1234567890",
   githubUsername: "frinklx", // Replace with your GitHub username
   newsApiKey: "80db9ff7e3f3448a925031e358148178", // Replace with your NewsAPI key
   refreshInterval: 300000, // 5 minutes
